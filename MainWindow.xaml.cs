@@ -51,12 +51,16 @@ namespace Orbits_and_Trajectories
             parentBody.Width = 100;
             parentBody.Height = 100;
             parentBody.Fill = Brushes.White;
+            parentBody.MouseEnter += mouseOver;
+            parentBody.MouseLeave += mouseLeave;
 
-            Canvas.SetLeft(parentBody, 400);
-            Canvas.SetTop(parentBody, 400);
+            Canvas.SetLeft(parentBody, 325);
+            Canvas.SetTop(parentBody, 325);
 
             MyCanvas.Children.Add(parentBody);
 
+
+            //set timer for canvas refresh
             System.Timers.Timer _timer = new System.Timers.Timer(50);
             _timer.Enabled = true;
             _timer.Elapsed += new ElapsedEventHandler(OnElapsedEvent);
