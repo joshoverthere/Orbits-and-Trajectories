@@ -29,8 +29,6 @@ namespace Orbits_and_Trajectories
             Fill = Brushes.White,
         };
 
-        int x = 0;
-        int y = 0;
         int vx = 0;
         int vy = 0;
         int gField = 0;
@@ -64,17 +62,10 @@ namespace Orbits_and_Trajectories
 
             double xAccel = Math.Cos(angle * (Math.PI / 180)) * g;
             double yAccel = Math.Sin(angle * (Math.PI / 180)) * g;
-
-            MessageBox.Show(xAccel.ToString() + yAccel.ToString());
+            results.Append(xAccel);
+            results.Append(yAccel);
 
             return results;
-
-
-            
-
-
-
-            MessageBox.Show(angle.ToString());
         }
 
         Random r = new Random();
@@ -83,14 +74,20 @@ namespace Orbits_and_Trajectories
             InitializeComponent();
 
             gravitationalBody parentBody = new gravitationalBody();
-            //resolveVectors(5, 5, 200, 200, 100, 100, 9.8);
+            gravitationalBody childBody = new gravitationalBody();
 
+            childBody.UIShape.Width = 25;
+            childBody.UIShape.Height = 25;
 
-            Canvas.SetLeft(parentBody.UIShape, 100);
-            Canvas.SetTop(parentBody.UIShape, 100);
+            Canvas.SetLeft(parentBody.UIShape, 350);
+            Canvas.SetTop(parentBody.UIShape, 350);
+
+            Canvas.SetLeft(childBody.UIShape, 200);
+            Canvas.SetTop(childBody.UIShape, 200);
 
 
             MyCanvas.Children.Add(parentBody.UIShape);
+            MyCanvas.Children.Add(childBody.UIShape);
             
 
 
@@ -114,6 +111,7 @@ namespace Orbits_and_Trajectories
                     {
                         double bodyx = Canvas.GetLeft(body);
                         double bodyy = Canvas.GetTop(body); 
+                        
 
                     }
                 }));
