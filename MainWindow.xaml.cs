@@ -18,17 +18,25 @@ using System.IO;
 
 namespace Orbits_and_Trajectories
 {
-
     public class gravitationalBody
     {
+
+
+        public Ellipse UIShape = new Ellipse
+        {
+            Width = 100,
+            Height = 100,
+            Fill = Brushes.White,
+        };
+
         int x = 0;
         int y = 0;
         int vx = 0;
         int vy = 0;
         int gField = 0;
-        Ellipse bodyShape = new Ellipse();
-
+        bool child = false;
     }
+
 
     public static class ExtensionMethods
     {
@@ -42,22 +50,48 @@ namespace Orbits_and_Trajectories
     public partial class MainWindow : Window
     {
 
+        private List<double> resolveVectors(double vx, double vy, double x1, double y1, double x2, double y2, double g)
+        {
+            List<double> results = new List<double>();
+
+            double gradient = -1 * (y2 - y1) / (x2 - x1);
+
+            double angle = Math.Atan(gradient) * (180 / Math.PI);
+            if (x1> x2)
+            {
+                angle += 180;
+            }
+
+            double xAccel = Math.Cos(angle * (Math.PI / 180)) * g;
+            double yAccel = Math.Sin(angle * (Math.PI / 180)) * g;
+
+            MessageBox.Show(xAccel.ToString() + yAccel.ToString());
+
+            return results;
+
+
+            
+
+
+
+            MessageBox.Show(angle.ToString());
+        }
+
         Random r = new Random();
         public MainWindow()
         {
             InitializeComponent();
 
-            Ellipse parentBody = new Ellipse();
-            parentBody.Width = 100;
-            parentBody.Height = 100;
-            parentBody.Fill = Brushes.White;
-            parentBody.MouseEnter += mouseOver;
-            parentBody.MouseLeave += mouseLeave;
+            gravitationalBody parentBody = new gravitationalBody();
+            //resolveVectors(5, 5, 200, 200, 100, 100, 9.8);
 
-            Canvas.SetLeft(parentBody, 325);
-            Canvas.SetTop(parentBody, 325);
 
-            MyCanvas.Children.Add(parentBody);
+            Canvas.SetLeft(parentBody.UIShape, 100);
+            Canvas.SetTop(parentBody.UIShape, 100);
+
+
+            MyCanvas.Children.Add(parentBody.UIShape);
+            
 
 
             //set timer for canvas refresh
@@ -73,16 +107,20 @@ namespace Orbits_and_Trajectories
 
         public void updateGrid()
         {
-            
-            foreach (var activeEllipse in MyCanvas.Children.OfType<Ellipse>())
+            try
             {
-                MessageBox.Show("hi");
-                double x = Canvas.GetLeft(activeEllipse);
-                double y = Canvas.GetTop(activeEllipse);
+                Dispatcher.Invoke(new Action(() => {
+                    foreach (UIElement body in MyCanvas.Children)
+                    {
+                        double bodyx = Canvas.GetLeft(body);
+                        double bodyy = Canvas.GetTop(body); 
 
-                Canvas.SetLeft(activeEllipse, (x + 5));
-                Canvas.SetTop(activeEllipse, (y + 5));
-                activeEllipse.Refresh();
+                    }
+                }));
+                
+            }
+            catch (Exception e){
+                MessageBox.Show(e.ToString());
             }
         }
 
