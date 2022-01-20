@@ -29,10 +29,10 @@ namespace Orbits_and_Trajectories
             Fill = Brushes.White,
         };
 
-        int vx = 0;
-        int vy = 0;
-        int gField = 0;
-        bool child = false;
+        public double vx = 0;
+        public double vy = 0;
+        public int gField = 0;
+        public bool isChild = false;
     }
 
 
@@ -62,13 +62,15 @@ namespace Orbits_and_Trajectories
 
             double xAccel = Math.Cos(angle * (Math.PI / 180)) * g;
             double yAccel = Math.Sin(angle * (Math.PI / 180)) * g;
-            results.Append(xAccel);
-            results.Append(yAccel);
+
+            results.Add(xAccel);
+            results.Add(yAccel);
 
             return results;
         }
 
         Random r = new Random();
+        List<gravitationalBody> gravitationalBodies = new List<gravitationalBody>();
         public MainWindow()
         {
             InitializeComponent();
@@ -76,8 +78,13 @@ namespace Orbits_and_Trajectories
             gravitationalBody parentBody = new gravitationalBody();
             gravitationalBody childBody = new gravitationalBody();
 
+            gravitationalBodies.Add(parentBody);
+            gravitationalBodies.Add(childBody);
+
             childBody.UIShape.Width = 25;
             childBody.UIShape.Height = 25;
+
+            childBody.isChild = true;
 
             parentBody.UIShape.MouseEnter += mouseOver;
             parentBody.UIShape.MouseLeave += mouseLeave;
@@ -113,12 +120,28 @@ namespace Orbits_and_Trajectories
             try
             {
                 Dispatcher.Invoke(new Action(() => {
-                    foreach (UIElement body in MyCanvas.Children)
+                    foreach (gravitationalBody body in gravitationalBodies)
                     {
-                        double bodyx = Canvas.GetLeft(body);
-                        double bodyy = Canvas.GetTop(body); 
-                        
+                        body.UIShape.Refresh();
+                        if (body.isChild)
+                        {
+                            double bodyx = Canvas.GetLeft(body.UIShape);
+                            double bodyy = Canvas.GetLeft(body.UIShape);
 
+                            List<double> accelVals = new List<double>();
+                            accelVals = resolveVectors(body.vx, body.vy, bodyx, bodyy, 350, 350, 9.8);
+
+                            //MessageBox.Show(accelVals.Count.ToString());
+                            body.vx += accelVals[0];
+                            body.vy += accelVals[1];
+
+
+                            bodyx += body.vx;
+                            bodyy += body.vy;
+
+                            Canvas.SetLeft(body.UIShape, bodyx);
+                            Canvas.SetTop(body.UIShape, bodyy);
+                        }
                     }
                 }));
                 
