@@ -79,6 +79,12 @@ namespace Orbits_and_Trajectories
             childBody.UIShape.Width = 25;
             childBody.UIShape.Height = 25;
 
+            parentBody.UIShape.MouseEnter += mouseOver;
+            parentBody.UIShape.MouseLeave += mouseLeave;
+
+            childBody.UIShape.MouseEnter += mouseOver;
+            childBody.UIShape.MouseLeave += mouseLeave;
+
             Canvas.SetLeft(parentBody.UIShape, 350);
             Canvas.SetTop(parentBody.UIShape, 350);
 
