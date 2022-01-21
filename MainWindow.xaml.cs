@@ -29,7 +29,7 @@ namespace Orbits_and_Trajectories
             Fill = Brushes.White,
         };
 
-        public double vx = 50;
+        public double vx = 0;
         public double vy = 0;
         public int gField = 0;
         public bool isChild = false;
@@ -99,14 +99,14 @@ namespace Orbits_and_Trajectories
             //parentBody.UIShape.MouseEnter += mouseOver;
             //parentBody.UIShape.MouseLeave += mouseLeave;
 
-            childBody.UIShape.MouseEnter += mouseOver;
-            childBody.UIShape.MouseLeave += mouseLeave;
+            //childBody.UIShape.MouseEnter += mouseOver;
+            //childBody.UIShape.MouseLeave += mouseLeave;
 
             Canvas.SetLeft(parentBody.UIShape, 350);
             Canvas.SetTop(parentBody.UIShape, 350);
 
-            Canvas.SetLeft(childBody.UIShape, 200);
-            Canvas.SetTop(childBody.UIShape, 200);
+            Canvas.SetLeft(childBody.UIShape, 500);
+            Canvas.SetTop(childBody.UIShape, 500);
 
 
             MyCanvas.Children.Add(parentBody.UIShape);
@@ -138,12 +138,29 @@ namespace Orbits_and_Trajectories
                             double bodyx = Canvas.GetLeft(body.UIShape);
                             double bodyy = Canvas.GetTop(body.UIShape);
 
-                            
+                            double xDistance = 400 - bodyx;
+                            double yDistance = 400 - bodyy;
+
+                            if (xDistance < 0)
+                            {
+                                xDistance = -xDistance;
+                            }
+                            if (yDistance < 0)
+                            {
+                                yDistance = -yDistance;
+                            }
+
+                            double distanceBetweenBodies = Math.Sqrt(Math.Pow(xDistance, 2) + Math.Pow(yDistance, 2));
+                            distanceBetweenBodies /= 150;
+
+                            double g = 1 / (Math.Pow(distanceBetweenBodies, 2));
+                            g *= 10;
+                            //MessageBox.Show(g.ToString());
                             
                             List<double> accelVals = new List<double>();
-                            accelVals = resolveVectors(body.vx, body.vy, bodyx, bodyy, 400, 400, 9.8);
+                            accelVals = resolveVectors(body.vx, body.vy, bodyx, bodyy, 400, 400, 2);
 
-                            //MessageBox.Show(bodyx + ", " + bodyy + " with vx: " + body.vx + " and vy: " + body.vy + " will accelerate " + accelVals[0] + " in x and " + accelVals[1] + " in y");
+                            //MessageBox.Show(bodyx + ", " + bodyy + " with vx: " + body.vx + " and vy: " + body.vy + " will accelerate " + accelVals[0] + " in x and " + accelVals[1] + " in y. Distance: " + distanceBetweenBodies + " making a force of " + g);
                             
                             body.vx += accelVals[0];
                             body.vy += accelVals[1];
