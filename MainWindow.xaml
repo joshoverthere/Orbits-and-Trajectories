@@ -6,7 +6,11 @@
         xmlns:local="clr-namespace:Orbits_and_Trajectories"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="800" MinWidth="800" MinHeight="800" MaxWidth="800" MaxHeight="800">
-    <Canvas Name="MyCanvas"  Focusable="True" Background="Black" Opacity="0.93">
+    <Canvas Name="MyCanvas"  Focusable="True" Opacity="0.93">
+        <Canvas.Background>
+            <ImageBrush Stretch="UniformToFill" ImageSource="C:/Users/thejo/Downloads/stars2.jpg"
+                AlignmentY="Top" AlignmentX="Center"/>
+        </Canvas.Background>
         <Slider Canvas.Left="50" Canvas.Top="50" Width="314" IsSnapToTickEnabled="true" Name="gValue" Height="71" Value ="1" ValueChanged="gChanged" TickPlacement="BottomRight" TickFrequency="0.25" Maximum="3"/>
         <TextBlock Canvas.Left="50" TextWrapping="Wrap" Text="0%" Canvas.Top="78" Foreground="White"/>
         <TextBlock Canvas.Left="144" TextWrapping="Wrap" Text="100%" Canvas.Top="78" Foreground="White"/>
