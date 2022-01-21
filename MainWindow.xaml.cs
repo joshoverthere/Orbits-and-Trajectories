@@ -80,9 +80,14 @@ namespace Orbits_and_Trajectories
         {
             InitializeComponent();
 
+            //create parent and child gravitational bodies
             gravitationalBody parentBody = new gravitationalBody();
             gravitationalBody childBody = new gravitationalBody();
 
+            //establish that child body is a child body (so it will be accelerated to parent body later)
+            childBody.isChild = true;
+
+            //add image graphics to parent and child bodies
             parentBody.UIShape.Fill = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri(@"C:/Users/thejo/Downloads/earth2.jpg", UriKind.Absolute))
@@ -93,34 +98,29 @@ namespace Orbits_and_Trajectories
                 ImageSource = new BitmapImage(new Uri(@"C:/Users/thejo/Downloads/moon2.jpg", UriKind.Absolute))
             };
 
+            //add parent and child bodies to list of gravitational bodies
             gravitationalBodies.Add(parentBody);
             gravitationalBodies.Add(childBody);
 
-            childBody.vx = 5;
-            childBody.vy = 0;
-
+            //set dimensions of child body
             childBody.UIShape.Width = 25;
             childBody.UIShape.Height = 25;
 
-            childBody.isChild = true;
+            //give the child body an initial x velocity of 5
+            childBody.vx = 5;
+            childBody.vy = 0;
 
-            //parentBody.UIShape.MouseEnter += mouseOver;
-            //parentBody.UIShape.MouseLeave += mouseLeave;
-
-            //childBody.UIShape.MouseEnter += mouseOver;
-            //childBody.UIShape.MouseLeave += mouseLeave;
-
+            //put parent body at position 350,350 on the canvas
             Canvas.SetLeft(parentBody.UIShape, 350);
             Canvas.SetTop(parentBody.UIShape, 350);
 
+            //put child body at position 200,200 on canvas (ideal to start orbit)
             Canvas.SetLeft(childBody.UIShape, 200);
             Canvas.SetTop(childBody.UIShape, 200);
 
-
+            //add parent and child to the canvas
             MyCanvas.Children.Add(parentBody.UIShape);
             MyCanvas.Children.Add(childBody.UIShape);
-
-
 
             //set timer for canvas refresh
             System.Timers.Timer _timer = new System.Timers.Timer(refreshSpeed);
@@ -138,12 +138,16 @@ namespace Orbits_and_Trajectories
 
             try
             {
+                //loop through all gravitational bodies in the simulation
                 Dispatcher.Invoke(new Action(() => {
                     foreach (gravitationalBody body in gravitationalBodies)
                     {
+                        //refresh the UI element of the body
                         body.UIShape.Refresh();
+                        //if it's a child body
                         if (body.isChild)
                         {
+                            //update realtime display text with the x and y speed of the child body
                             xSpeedDisplay.Text = body.vx.ToString();
                             ySpeedDisplay.Text = body.vy.ToString();
 
@@ -175,16 +179,15 @@ namespace Orbits_and_Trajectories
                             List<double> accelVals = new List<double>();
                             accelVals = resolveVectors(body.vx, body.vy, bodyx, bodyy, 400, 400, g);
 
-                            //MessageBox.Show(bodyx + ", " + bodyy + " with vx: " + body.vx + " and vy: " + body.vy + " will accelerate " + accelVals[0] + " in x and " + accelVals[1] + " in y. Distance: " + distanceBetweenBodies + " making a force of " + g);
-                            
+                            //accelerate child body's x and y speed by the values returned from resolveVectors()
                             body.vx += accelVals[0];
                             body.vy += accelVals[1];
                             
-                            
+                            //update the x and y position of the child body by the x and y speed of the child body
                             bodyx += body.vx;
                             bodyy += body.vy;
                             
-
+                            //update canvas position of the child body
                             Canvas.SetLeft(body.UIShape, bodyx);
                             Canvas.SetTop(body.UIShape, bodyy);
                             
@@ -201,7 +204,6 @@ namespace Orbits_and_Trajectories
         private void mouseOver(object sender, MouseEventArgs e)
         {
             Ellipse activeEllipse = sender as Ellipse;
-
             activeEllipse.Fill = Brushes.Gray;
             activeEllipse.Stroke = Brushes.Gray;
             activeEllipse.Refresh();
@@ -210,7 +212,6 @@ namespace Orbits_and_Trajectories
         private void mouseLeave(object sender, MouseEventArgs e)
         {
             Ellipse activeEllipse = sender as Ellipse;
-
             activeEllipse.Fill = Brushes.White;
             activeEllipse.Stroke = Brushes.White;
             activeEllipse.Refresh();
@@ -228,13 +229,18 @@ namespace Orbits_and_Trajectories
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            //loop through all gravitational bodies
             Dispatcher.Invoke(new Action(() => {
                 foreach (gravitationalBody body in gravitationalBodies)
                 {
+                    //if it's a child body
                     if (body.isChild)
                     {
+                        //reset initial velocity
                         body.vx = 5;
                         body.vy = 0;
+
+                        //reset canvas position of child body
                         Canvas.SetLeft(body.UIShape, 200);
                         Canvas.SetTop(body.UIShape, 200);
                     }
