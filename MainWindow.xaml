@@ -16,5 +16,10 @@
         <Button Content="Reset" Canvas.Left="372" Canvas.Top="50" Click="Button_Click" Height="26" Width="64"/>
         <Slider Canvas.Left="444" Canvas.Top="50" Width="314" IsSnapToTickEnabled="true" x:Name="rValue" Height="71" Value ="1" ValueChanged="rChanged" TickPlacement="BottomRight" TickFrequency="0.25" Maximum="2"/>
         <TextBlock Canvas.Left="551" TextWrapping="Wrap" Text="Simulation Speed" Canvas.Top="22" Foreground="White"/>
+        <TextBlock Canvas.Left="157" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="204"/>
+        <TextBlock Canvas.Left="50" TextWrapping="Wrap" Canvas.Top="152" Foreground="White"><Run Language="en-gb" Text="x: "/></TextBlock>
+        <TextBlock Canvas.Left="50" TextWrapping="Wrap" Canvas.Top="168" Foreground="White"><Run Language="en-gb" Text="y: "/></TextBlock>
+        <TextBlock Canvas.Left="61" Name="xSpeedDisplay" TextWrapping="Wrap" Canvas.Top="152" Foreground="White" Text=""/>
+        <TextBlock Canvas.Left="62" Name="ySpeedDisplay" TextWrapping="Wrap" Canvas.Top="168" Foreground="White"></TextBlock>
     </Canvas>
 </Window>

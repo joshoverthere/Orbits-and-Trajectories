@@ -135,6 +135,7 @@ namespace Orbits_and_Trajectories
 
         public void updateGrid()
         {
+
             try
             {
                 Dispatcher.Invoke(new Action(() => {
@@ -143,6 +144,9 @@ namespace Orbits_and_Trajectories
                         body.UIShape.Refresh();
                         if (body.isChild)
                         {
+                            xSpeedDisplay.Text = body.vx.ToString();
+                            ySpeedDisplay.Text = body.vy.ToString();
+
                             //get x and y coordinates of the child body
                             double bodyx = Canvas.GetLeft(body.UIShape);
                             double bodyy = Canvas.GetTop(body.UIShape);
