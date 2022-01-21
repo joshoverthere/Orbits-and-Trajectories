@@ -77,7 +77,6 @@ namespace Orbits_and_Trajectories
 
             gravitationalBody parentBody = new gravitationalBody();
             gravitationalBody childBody = new gravitationalBody();
-            gravitationalBody childBody2 = new gravitationalBody();
 
             parentBody.UIShape.Fill = new ImageBrush
             {
@@ -91,21 +90,14 @@ namespace Orbits_and_Trajectories
 
             gravitationalBodies.Add(parentBody);
             gravitationalBodies.Add(childBody);
-            gravitationalBodies.Add(childBody2);
 
-            childBody.vx = -30;
+            childBody.vx = 5;
             childBody.vy = 0;
-
-            childBody2.vx = 10;
-            childBody2.vy = -5;
 
             childBody.UIShape.Width = 25;
             childBody.UIShape.Height = 25;
-            childBody2.UIShape.Width = 10;
-            childBody2.UIShape.Height = 10;
 
             childBody.isChild = true;
-            childBody2.isChild = true;
 
             //parentBody.UIShape.MouseEnter += mouseOver;
             //parentBody.UIShape.MouseLeave += mouseLeave;
@@ -116,22 +108,17 @@ namespace Orbits_and_Trajectories
             Canvas.SetLeft(parentBody.UIShape, 350);
             Canvas.SetTop(parentBody.UIShape, 350);
 
-            Canvas.SetLeft(childBody.UIShape, 500);
-            Canvas.SetTop(childBody.UIShape, 500);
-
-            Canvas.SetLeft(childBody2.UIShape, 200);
-            Canvas.SetTop(childBody2.UIShape, 200);
-
+            Canvas.SetLeft(childBody.UIShape, 200);
+            Canvas.SetTop(childBody.UIShape, 200);
 
 
             MyCanvas.Children.Add(parentBody.UIShape);
             MyCanvas.Children.Add(childBody.UIShape);
-            MyCanvas.Children.Add(childBody2.UIShape);
-            
+
 
 
             //set timer for canvas refresh
-            System.Timers.Timer _timer = new System.Timers.Timer(50);
+            System.Timers.Timer _timer = new System.Timers.Timer(5);
             _timer.Enabled = true;
             _timer.Elapsed += new ElapsedEventHandler(OnElapsedEvent);
         }
@@ -151,12 +138,15 @@ namespace Orbits_and_Trajectories
                         body.UIShape.Refresh();
                         if (body.isChild)
                         {
+                            //get x and y coordinates of the child body
                             double bodyx = Canvas.GetLeft(body.UIShape);
                             double bodyy = Canvas.GetTop(body.UIShape);
 
+                            //calculate pixel distance x and y from child to parent
                             double xDistance = 400 - bodyx;
                             double yDistance = 400 - bodyy;
 
+                            //make distances positive even if they're negative
                             if (xDistance < 0)
                             {
                                 xDistance = -xDistance;
@@ -166,15 +156,15 @@ namespace Orbits_and_Trajectories
                                 yDistance = -yDistance;
                             }
 
-                            double distanceBetweenBodies = Math.Sqrt(Math.Pow(xDistance, 2) + Math.Pow(yDistance, 2));
-                            distanceBetweenBodies /= 150;
+                            //calculate diagonal distance between child and parent body in units
+                            double distanceBetweenBodies = Math.Sqrt(Math.Pow(xDistance, 2) + Math.Pow(yDistance, 2)) / 150;
 
-                            double g = 1 / (Math.Pow(distanceBetweenBodies, 2));
-                            g *= 9.81;
-                            //MessageBox.Show(g.ToString());
+                            //calculate gravitational force using inverse square law
+                            double g = 1 / (Math.Pow(distanceBetweenBodies, 2)) * 0.5;
                             
+                            //use resolveVectors() function to get the x and y acceleration of 
                             List<double> accelVals = new List<double>();
-                            accelVals = resolveVectors(body.vx, body.vy, bodyx, bodyy, 400, 400, 2);
+                            accelVals = resolveVectors(body.vx, body.vy, bodyx, bodyy, 400, 400, g);
 
                             //MessageBox.Show(bodyx + ", " + bodyy + " with vx: " + body.vx + " and vy: " + body.vy + " will accelerate " + accelVals[0] + " in x and " + accelVals[1] + " in y. Distance: " + distanceBetweenBodies + " making a force of " + g);
                             
