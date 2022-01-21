@@ -77,6 +77,7 @@ namespace Orbits_and_Trajectories
 
             gravitationalBody parentBody = new gravitationalBody();
             gravitationalBody childBody = new gravitationalBody();
+            gravitationalBody childBody2 = new gravitationalBody();
 
             parentBody.UIShape.Fill = new ImageBrush
             {
@@ -90,11 +91,21 @@ namespace Orbits_and_Trajectories
 
             gravitationalBodies.Add(parentBody);
             gravitationalBodies.Add(childBody);
+            gravitationalBodies.Add(childBody2);
+
+            childBody.vx = -30;
+            childBody.vy = 0;
+
+            childBody2.vx = 10;
+            childBody2.vy = -5;
 
             childBody.UIShape.Width = 25;
             childBody.UIShape.Height = 25;
+            childBody2.UIShape.Width = 10;
+            childBody2.UIShape.Height = 10;
 
             childBody.isChild = true;
+            childBody2.isChild = true;
 
             //parentBody.UIShape.MouseEnter += mouseOver;
             //parentBody.UIShape.MouseLeave += mouseLeave;
@@ -108,9 +119,14 @@ namespace Orbits_and_Trajectories
             Canvas.SetLeft(childBody.UIShape, 500);
             Canvas.SetTop(childBody.UIShape, 500);
 
+            Canvas.SetLeft(childBody2.UIShape, 200);
+            Canvas.SetTop(childBody2.UIShape, 200);
+
+
 
             MyCanvas.Children.Add(parentBody.UIShape);
             MyCanvas.Children.Add(childBody.UIShape);
+            MyCanvas.Children.Add(childBody2.UIShape);
             
 
 
@@ -154,7 +170,7 @@ namespace Orbits_and_Trajectories
                             distanceBetweenBodies /= 150;
 
                             double g = 1 / (Math.Pow(distanceBetweenBodies, 2));
-                            g *= 10;
+                            g *= 9.81;
                             //MessageBox.Show(g.ToString());
                             
                             List<double> accelVals = new List<double>();
