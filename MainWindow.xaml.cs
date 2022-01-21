@@ -18,6 +18,9 @@ using System.IO;
 
 namespace Orbits_and_Trajectories
 {
+
+    
+
     public class gravitationalBody
     {
 
@@ -47,6 +50,8 @@ namespace Orbits_and_Trajectories
 
     public partial class MainWindow : Window
     {
+        public double gravitationalConstant;
+        public double refreshSpeed = 5;
 
         private List<double> resolveVectors(double vx, double vy, double x1, double y1, double x2, double y2, double g)
         {
@@ -118,7 +123,7 @@ namespace Orbits_and_Trajectories
 
 
             //set timer for canvas refresh
-            System.Timers.Timer _timer = new System.Timers.Timer(5);
+            System.Timers.Timer _timer = new System.Timers.Timer(refreshSpeed);
             _timer.Enabled = true;
             _timer.Elapsed += new ElapsedEventHandler(OnElapsedEvent);
         }
@@ -160,7 +165,7 @@ namespace Orbits_and_Trajectories
                             double distanceBetweenBodies = Math.Sqrt(Math.Pow(xDistance, 2) + Math.Pow(yDistance, 2)) / 150;
 
                             //calculate gravitational force using inverse square law
-                            double g = 1 / (Math.Pow(distanceBetweenBodies, 2)) * 0.5;
+                            double g = 1 / (Math.Pow(distanceBetweenBodies, 2)) * gravitationalConstant;
                             
                             //use resolveVectors() function to get the x and y acceleration of 
                             List<double> accelVals = new List<double>();
@@ -207,7 +212,32 @@ namespace Orbits_and_Trajectories
             activeEllipse.Refresh();
         }
 
+        private void gChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            gravitationalConstant = 0.5 * gValue.Value;
+        }
 
+        private void rChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            refreshSpeed = 5 * (2-rValue.Value);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Dispatcher.Invoke(new Action(() => {
+                foreach (gravitationalBody body in gravitationalBodies)
+                {
+                    if (body.isChild)
+                    {
+                        body.vx = 5;
+                        body.vy = 0;
+                        Canvas.SetLeft(body.UIShape, 200);
+                        Canvas.SetTop(body.UIShape, 200);
+                    }
+                }
+            }));
+
+        }
     }
     
 }

@@ -6,5 +6,15 @@
         xmlns:local="clr-namespace:Orbits_and_Trajectories"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="800" MinWidth="800" MinHeight="800" MaxWidth="800" MaxHeight="800">
-    <Canvas Name="MyCanvas"  Focusable="True" Background="Black" Opacity="0.93"/>
+    <Canvas Name="MyCanvas"  Focusable="True" Background="Black" Opacity="0.93">
+        <Slider Canvas.Left="50" Canvas.Top="50" Width="314" IsSnapToTickEnabled="true" Name="gValue" Height="71" Value ="1" ValueChanged="gChanged" TickPlacement="BottomRight" TickFrequency="0.25" Maximum="3"/>
+        <TextBlock Canvas.Left="50" TextWrapping="Wrap" Text="0%" Canvas.Top="78" Foreground="White"/>
+        <TextBlock Canvas.Left="144" TextWrapping="Wrap" Text="100%" Canvas.Top="78" Foreground="White"/>
+        <TextBlock Canvas.Left="335" TextWrapping="Wrap" Text="300%" Canvas.Top="78" Foreground="White"/>
+        <TextBlock Canvas.Left="243" TextWrapping="Wrap" Text="200%" Canvas.Top="78" Foreground="White"/>
+        <TextBlock Canvas.Left="157" TextWrapping="Wrap" Text="Gravitational Force" Canvas.Top="22" Foreground="White"/>
+        <Button Content="Reset" Canvas.Left="372" Canvas.Top="50" Click="Button_Click" Height="26" Width="64"/>
+        <Slider Canvas.Left="444" Canvas.Top="50" Width="314" IsSnapToTickEnabled="true" x:Name="rValue" Height="71" Value ="1" ValueChanged="rChanged" TickPlacement="BottomRight" TickFrequency="0.25" Maximum="2"/>
+        <TextBlock Canvas.Left="551" TextWrapping="Wrap" Text="Simulation Speed" Canvas.Top="22" Foreground="White"/>
+    </Canvas>
 </Window>
