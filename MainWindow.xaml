@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Orbits_and_Trajectories"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="800" MinWidth="800" MinHeight="800" MaxWidth="800" MaxHeight="800">
-    <Canvas Name="MyCanvas"  Focusable="True" Opacity="0.93">
+    <Canvas Name="MyCanvas"  Focusable="True" Opacity="1">
         <Canvas.Background>
             <ImageBrush Stretch="UniformToFill" ImageSource="C:/Users/thejo/Downloads/stars2.jpg"
                 AlignmentY="Top" AlignmentX="Center"/>
@@ -20,10 +20,15 @@
         <Button Content="Reset" Canvas.Left="372" Canvas.Top="50" Click="Button_Click" Height="26" Width="64"/>
         <Slider Canvas.Left="444" Canvas.Top="50" Width="314" IsSnapToTickEnabled="true" x:Name="rValue" Height="71" Value ="1" ValueChanged="rChanged" TickPlacement="BottomRight" TickFrequency="0.25" Maximum="2"/>
         <TextBlock Canvas.Left="551" TextWrapping="Wrap" Text="Simulation Speed" Canvas.Top="22" Foreground="White"/>
-        <TextBlock Canvas.Left="157" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="204"/>
+        <TextBlock Canvas.Left="-185" TextWrapping="Wrap" Text="xtBlock" Canvas.Top="199"/>
         <TextBlock Canvas.Left="50" TextWrapping="Wrap" Canvas.Top="152" Foreground="White"><Run Language="en-gb" Text="x: "/></TextBlock>
         <TextBlock Canvas.Left="50" TextWrapping="Wrap" Canvas.Top="168" Foreground="White"><Run Language="en-gb" Text="y: "/></TextBlock>
         <TextBlock Canvas.Left="61" Name="xSpeedDisplay" TextWrapping="Wrap" Canvas.Top="152" Foreground="White" Text=""/>
         <TextBlock Canvas.Left="62" Name="ySpeedDisplay" TextWrapping="Wrap" Canvas.Top="168" Foreground="White"></TextBlock>
+        <TextBlock Canvas.Left="50" TextWrapping="Wrap" Canvas.Top="136" Foreground="White"><Run Language="en-gb" Text="Velocities: "/></TextBlock>
+        <TextBlock Canvas.Left="50" TextWrapping="Wrap" Canvas.Top="191" Foreground="White" Text="Acceleration Vector: "/>
+        <TextBlock Canvas.Left="50" Name="gDisplay" TextWrapping="Wrap" Canvas.Top="212" Foreground="White"><Run Language="en-gb" Text=""/></TextBlock>
+        <TextBlock Canvas.Left="50" TextWrapping="Wrap" Canvas.Top="231" Foreground="White" Text="Distance (child to parent): "/>
+        <TextBlock Canvas.Left="50" TextWrapping="Wrap" Name="dDisplay"  Canvas.Top="252" Foreground="White" Text=""/>
     </Canvas>
 </Window>

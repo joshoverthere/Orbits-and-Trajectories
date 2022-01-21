@@ -65,6 +65,8 @@ namespace Orbits_and_Trajectories
                 angle += 180;
             }
 
+            gDisplay.Text = g.ToString();
+
             double xAccel = Math.Cos(angle * (Math.PI / 180)) * g;
             double yAccel = - Math.Sin(angle * (Math.PI / 180)) * g; //essential to add negative sign since the coordinate system goes increases from top to bottom
 
@@ -172,6 +174,9 @@ namespace Orbits_and_Trajectories
                             //calculate diagonal distance between child and parent body in units
                             double distanceBetweenBodies = Math.Sqrt(Math.Pow(xDistance, 2) + Math.Pow(yDistance, 2)) / 150;
 
+                            //update realtime distance display text
+                            dDisplay.Text = (distanceBetweenBodies*150).ToString();
+
                             //calculate gravitational force using inverse square law
                             double g = 1 / (Math.Pow(distanceBetweenBodies, 2)) * gravitationalConstant;
                             
@@ -224,6 +229,7 @@ namespace Orbits_and_Trajectories
 
         private void rChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            //1 x refresh speed is 5 milliseconds
             refreshSpeed = 5 * (2-rValue.Value);
         }
 
